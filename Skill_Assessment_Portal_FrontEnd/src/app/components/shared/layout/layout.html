@@ -1,0 +1,77 @@
+<!-- Modern Professional Navigation -->
+<header class="navbar" *ngIf="showNavigation">
+  <div class="navbar-content">
+    <!-- Logo Section -->
+    <div class="navbar-logo-container">
+      <a class="navbar-logo" (click)="onLogoClick()" style="cursor: pointer;">
+    Skill Assessment Portal
+  </a>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="navbar-nav-links" [ngClass]="{'active': isMenuOpen}">
+      <a *ngIf="isManager" routerLink="/assign-assessment" routerLinkActive="active" (click)="closeMenu()">
+        Assign Assessment
+      </a>
+      <a *ngIf="isManager" routerLink="/assessments" routerLinkActive="active" (click)="closeMenu()">
+        Manage Assessments
+      </a>
+      <a *ngIf="isManager" routerLink="/users" routerLinkActive="active" (click)="closeMenu()">
+        Manage Users
+      </a>
+      <a *ngIf="isCandidate" routerLink="/my-submissions" routerLinkActive="active" (click)="closeMenu()">
+        My Submissions
+      </a>
+    </nav>
+    
+    <!-- User Actions Section -->
+    <div class="navbar-user">
+      <button class="mobile-menu-button"
+        type="button"
+        aria-label="Open menu"
+        (click)="toggleMenu()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+      <!-- Profile Button -->
+      <a *ngIf="isLoggedIn" 
+         routerLink="/profile" 
+         class="profile-button" 
+         title="View Profile - {{ userName }}">
+        <img *ngIf="userProfilePath" 
+             [src]="userProfilePath" 
+             [alt]="userName + ' Profile'" 
+             class="profile-img">
+        <span *ngIf="!userProfilePath" 
+              class="profile-initials">
+          {{ userName | slice:0:1 | uppercase }}
+        </span>
+      </a>
+
+      <!-- Action Buttons -->
+      <button class="btn btn-logout" 
+              *ngIf="isLoggedIn" 
+              (click)="onLogout()"
+              title="Sign out">
+        Sign Out
+      </button>
+      
+      <a class="btn btn-login" 
+         *ngIf="!isLoggedIn && router.url !== '/login'" 
+         routerLink="/login"
+         title="Sign in to your account">
+        Sign In
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- Main content with dynamic padding -->
+<main class="content" [class.no-navbar]="!showNavigation">
+  <router-outlet></router-outlet>
+</main>
